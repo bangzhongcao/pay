@@ -1,15 +1,10 @@
-基于阿里云官方SDK的扩展包
+集成支付宝和微信支付的扩展包
 
 ## 安装
 
 ``` bash
-$ composer require jormin/aliyun -vvv
+$ composer require jormin/pay -vvv
 ```
-
-## 通用配置
-
- - accessKeyId: 阿里云Access Key ID
- - accessKeySecret: 阿里云Access Key Secret
 
 ## 通用响应
 
@@ -22,13 +17,13 @@ $ composer require jormin/aliyun -vvv
 
 ## 功能文档
 
-- [移动推送](doc/push.md)
+- [支付宝](doc/alipay.md)
 
-- [短信服务](doc/sms.md)
+- [微信](doc/wechatpay.md)
 
-## 参考项目
+## 参考文档
 
-1. [aliyun/aliyun-openapi-php-sdk](https://github.com/aliyun/aliyun-openapi-php-sdk?spm=a2c4g.11186623.2.3.cScbtO)
+1. [蚂蚁金服开放平台文档中心](https://docs.open.alipay.com/200/)
 
 ## License
 
