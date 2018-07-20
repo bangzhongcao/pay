@@ -10,7 +10,7 @@ $ composer require jormin/pay -vvv
 
 | 参数  | 类型  | 是否必须  | 描述  |
 | ------------ | ------------ | ------------ | ------------ |
-| error | bool | 是 | false：操作成功 true:操作失败 |
+| success | bool | 是 | false：操作失败 true:操作成功 |
 | message | string | 是 | 结果说明 |
 | data | array | 否 | 返回数据 |
 
