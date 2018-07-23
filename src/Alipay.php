@@ -360,4 +360,26 @@ class Alipay extends BaseObject {
         }
         return $this->success('请求成功', $response);
     }
+
+    /**
+     * 回调校验签名
+     *
+     * @return bool
+     */
+    public function notifyVerify()
+    {
+        $result = $this->aopClient->rsaCheckV1($_POST, $this->alipayPublicKey, $this->signType);
+        return $result;
+    }
+
+    /**
+     * 回复通知
+     *
+     * @param $success
+     * @param bool $die
+     */
+    private function notifyReply($success, $die=true){
+        echo $success ? 'success' : 'fail';
+        $die && die;
+    }
 }
