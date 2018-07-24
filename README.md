@@ -25,6 +25,8 @@ $ composer require jormin/pay -vvv
 
 1. [蚂蚁金服开放平台文档中心](https://docs.open.alipay.com/200/)
 
+1. [微信支付文档中心](https://pay.weixin.qq.com/wiki/doc/api/index.html)
+
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
