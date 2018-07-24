@@ -178,7 +178,7 @@ class WxPay extends BaseObject {
      * @param $msg
      * @param bool $die
      */
-    private function notifyReply($success, $msg, $die=true){
+    public function notifyReply($success, $msg, $die=true){
         $wxPayReply = new \WxPayNotify();
         $wxPayReply->SetReturn_code($success ? 'SUCCESS' : 'FAIL');
         $wxPayReply->SetReturn_msg($success ? 'OK' : $msg);
