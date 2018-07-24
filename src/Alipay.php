@@ -378,7 +378,7 @@ class Alipay extends BaseObject {
      * @param $success
      * @param bool $die
      */
-    private function notifyReply($success, $die=true){
+    public function notifyReply($success, $die=true){
         echo $success ? 'success' : 'fail';
         $die && die;
     }
