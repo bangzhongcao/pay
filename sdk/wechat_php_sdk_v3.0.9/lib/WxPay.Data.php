@@ -150,6 +150,15 @@ class WxPayDataBase
 	{
 		return $this->values;
 	}
+
+    /**
+     * 设置值
+     * @param $values
+     */
+    public function SetValues($values)
+    {
+        $this->values = $values;
+    }
 }
 
 /**

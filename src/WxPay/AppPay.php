@@ -29,14 +29,15 @@ class AppPay extends BasePay
 
         $wxPayDataBase = new \WxPayDataBase();
 		$parameters = [
-		    'appID' => $UnifiedOrderResult["appid"],
-            'partnerID' => '',
-            'prepayID' => $UnifiedOrderResult['prepay_id'],
+		    'appid' => $UnifiedOrderResult["appid"],
+            'partnerid' => $UnifiedOrderResult['mch_id'],
+            'prepayid' => $UnifiedOrderResult['prepay_id'],
             'package' => 'Sign=WXPay',
-            'nonceStr' => \WxPayApi::getNonceStr(),
-            'timestamp' => time(),
-            'sign' => $wxPayDataBase->MakeSign($this->payConfig)
+            'noncestr' => \WxPayApi::getNonceStr(),
+            'timestamp' => time()
         ];
+        $wxPayDataBase->SetValues($parameters);
+        $parameters['sign'] = $wxPayDataBase->MakeSign($this->payConfig);
 		return $parameters;
 	}
 }
