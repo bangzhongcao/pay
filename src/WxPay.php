@@ -4,6 +4,7 @@ namespace Jormin\Pay;
 
 include_once dirname(__FILE__) . '/../sdk/wechat_php_sdk_v3.0.9/lib/WxPay.Config.Interface.php';
 include_once dirname(__FILE__) . '/../sdk/wechat_php_sdk_v3.0.9/lib/WxPay.Api.php';
+include_once dirname(__FILE__) . '/../sdk/wechat_php_sdk_v3.0.9/lib/WxPay.Notify.php';
 
 use Jormin\Pay\WxPay\AppPay;
 use Jormin\Pay\WxPay\BasePay;
