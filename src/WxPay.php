@@ -141,7 +141,7 @@ class WxPay extends BaseObject {
      */
     public function notifyVerify($query=false)
     {
-        $xml = $GLOBALS['HTTP_RAW_POST_DATA'];
+        $xml = file_get_contents("php://input");
         $objData = \WxPayNotifyResults::Init($this->payConfig, $xml);
         $data = $objData->GetValues();
         $responseData = ['origin'=>$xml, 'convert'=>$data];
