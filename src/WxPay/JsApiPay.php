@@ -99,7 +99,6 @@ class JsApiPay extends BasePay
 		.$config->GetMerchantId();
 
 		//设置超时
-		curl_setopt($ch, CURLOPT_TIMEOUT, $this->curl_timeout);
 		curl_setopt($ch, CURLOPT_URL, $url);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER,FALSE);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST,FALSE);
