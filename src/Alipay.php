@@ -200,7 +200,6 @@ class Alipay extends BaseObject {
         $request->setCode($authCode);
         $request->setGrantType('authorization_code');
         $response = $this->aopClient->execute($request);
-        cp($response);
         if($response['code'] != '10000 '){
             return $this->error(isset($response['sub_msg']) ? $response['sub_msg']: $response['msg'], $response);
         }
@@ -246,9 +245,11 @@ class Alipay extends BaseObject {
                 break;
             case 'wap':
                 $request = new \AlipayTradeWapPayRequest();
+                $request->setReturnUrl($this->returnUrl);
                 break;
             case 'web':
                 $request = new \AlipayTradePagePayRequest();
+                $request->setReturnUrl($this->returnUrl);
                 break;
             case 'bar':
                 $request = new \AlipayTradePayRequest();
