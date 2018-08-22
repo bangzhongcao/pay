@@ -356,7 +356,7 @@ class Alipay extends BaseObject {
         $request->setBizContent($bizContent);
         $response = $this->aopClient->execute($request);
         $response = (array)$response->alipay_trade_query_response;
-        if($response['code'] != '10000 '){
+        if($response['code'] != '10000'){
             return $this->error(isset($response['sub_msg']) ? $response['sub_msg']: $response['msg'], $response);
         }
         return $this->success('请求成功', $response);
