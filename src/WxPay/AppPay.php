@@ -37,7 +37,7 @@ class AppPay extends BasePay
             'timestamp' => time()
         ];
         $wxPayDataBase->SetValues($parameters);
-        $parameters['sign'] = $wxPayDataBase->MakeSign($this->payConfig);
+        $parameters['sign'] = $wxPayDataBase->MakeSign($this->payConfig, false);
 		return $parameters;
 	}
 }
