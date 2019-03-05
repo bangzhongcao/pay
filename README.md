@@ -19,15 +19,17 @@ $ composer require jormin/pay -vvv
 
 - [支付宝](doc/alipay.md)
 
-- [微信](doc/wechatpay.md)
+- [微信支付](doc/wechatpay.md)
 
-- [爱贝](doc/iapppay.md)
+- [爱贝支付](doc/iapppay.md)
 
 ## 参考文档
 
 1. [蚂蚁金服开放平台文档中心](https://docs.open.alipay.com/200/)
 
-1. [微信支付文档中心](https://pay.weixin.qq.com/wiki/doc/api/index.html)
+2. [微信支付文档中心](https://pay.weixin.qq.com/wiki/doc/api/index.html)
+
+3. [爱贝支付文档中心](https://www.iapppay.com/portal/gintroduction)
 
 ## License
 
