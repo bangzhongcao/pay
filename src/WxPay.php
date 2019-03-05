@@ -13,50 +13,59 @@ use Jormin\Pay\WxPay\PayConfig;
 
 /**
  * Class WxPay
- * @package Jormin\Aliyun
+ * @package Jormin\Pay
  */
-class WxPay extends BaseObject {
+class WxPay extends BaseObject
+{
 
     /**
      * 微信支付配置
-     *
      * @var PayConfig
      */
     protected $payConfig;
 
     /**
      * 微信统一下单输入
-     *
      * @var \WxPayUnifiedOrder
      */
     protected $unifiedOrderInpiut;
 
-    public function __construct($appID, $appSecret, $merchantID, $key, $notifyUrl, $returnUrl=null, $signType='MD5')
+    /**
+     * WxPay constructor.
+     * @param $appId
+     * @param $appSecret
+     * @param $merchantID
+     * @param $key
+     * @param $notifyUrl
+     * @param null $returnUrl
+     * @param string $signType
+     */
+    public function __construct($appId, $appSecret, $merchantID, $key, $notifyUrl, $returnUrl = null, $signType = 'MD5')
     {
-        $this->payConfig = new PayConfig($appID, $appSecret, $merchantID, $key, $notifyUrl, $returnUrl=null, $signType);
+        $this->payConfig = new PayConfig($appId, $appSecret, $merchantID, $key, $notifyUrl, $returnUrl = null, $signType);
     }
 
     /**
      * 生成业务参数
-     *
      * @param $order
      * @param $body
      * @param $amount
      * @param array $otherParams
      */
-    public function setUnifiedOrderContent($order, $body, $amount, $otherParams=[]){
+    public function setUnifiedOrderContent($order, $body, $amount, $otherParams = [])
+    {
         $this->unifiedOrderInpiut = BasePay::makeUnifiedOrderContent($order, $body, $amount, $otherParams);
     }
 
     /**
      * 统一支付下单
-     *
      * @param $payWay
      * @return array
      */
-    private function pay($payWay){
+    private function pay($payWay)
+    {
         $wxPay = $request = $response = null;
-        switch ($payWay){
+        switch ($payWay) {
             case 'js':
                 $wxPay = new JsApiPay($this->payConfig);
                 $openId = $wxPay->GetOpenid();
@@ -68,9 +77,9 @@ class WxPay extends BaseObject {
                 $wxPay = new AppPay($this->payConfig);
                 break;
         }
-        try{
+        try {
             $unifiedOrder = \WxPayApi::unifiedOrder($this->payConfig, $this->unifiedOrderInpiut);
-            switch ($payWay){
+            switch ($payWay) {
                 case 'js':
                     $response = $wxPay->GetJsApiParameters($unifiedOrder);
                     break;
@@ -82,53 +91,53 @@ class WxPay extends BaseObject {
                     break;
             }
             return $this->success('请求成功', $response);
-        }catch(\Exception $e){
-            return $this->error('统一下单失败，失败原因：'.$e->getMessage());
+        } catch (\Exception $e) {
+            return $this->error('统一下单失败，失败原因：' . $e->getMessage());
         }
     }
 
     /**
      * App支付
-     *
      * @return array
      */
-    public function appPay(){
+    public function appPay()
+    {
         return $this->pay('app');
     }
 
     /**
      * js 支付
-     *
      * @return array
      */
-    public function jsPay(){
+    public function jsPay()
+    {
         return $this->pay('js');
     }
+
     /**
      * 二维码 支付
-     *
      * @return array
      */
-    public function qrPay(){
+    public function qrPay()
+    {
         return $this->pay('qrcode');
     }
 
     /**
      * 查询订单
-     *
      * @param $transaction_id
      * @return array
+     * @throws \WxPayException
      */
     public function queryorder($transaction_id)
     {
         $input = new \WxPayOrderQuery();
         $input->SetTransaction_id($transaction_id);
         $result = \WxPayApi::orderQuery($this->payConfig, $input);
-        if(array_key_exists("return_code", $result)
+        if (array_key_exists("return_code", $result)
             && array_key_exists("result_code", $result)
             && $result["return_code"] == "SUCCESS"
-            && $result["result_code"] == "SUCCESS")
-        {
+            && $result["result_code"] == "SUCCESS") {
             return $this->success('查询成功', $result);
         }
         return $this->error('查询失败', $result);
@@ -136,37 +145,37 @@ class WxPay extends BaseObject {
 
     /**
      * 回调校验签名
-     *
      * @param bool $query 是否通过微信接口查询订单来判断订单真实性
      * @return array
+     * @throws \WxPayException
      */
-    public function notifyVerify($query=false)
+    public function notifyVerify($query = false)
     {
         $xml = file_get_contents("php://input");
         $objData = \WxPayNotifyResults::Init($this->payConfig, $xml);
         $data = $objData->GetValues();
-        $responseData = ['origin'=>$xml, 'convert'=>$data];
-        if(!array_key_exists("return_code", $data)
-            ||(array_key_exists("return_code", $data) && $data['return_code'] != "SUCCESS")) {
+        $responseData = ['origin' => $xml, 'convert' => $data];
+        if (!array_key_exists("return_code", $data)
+            || (array_key_exists("return_code", $data) && $data['return_code'] != "SUCCESS")) {
             return $this->error('通信异常', $responseData);
         }
-        if(!array_key_exists("transaction_id", $data) || !array_key_exists("out_trade_no", $data)){
+        if (!array_key_exists("transaction_id", $data) || !array_key_exists("out_trade_no", $data)) {
             return $this->error('回调参数异常', $responseData);
         }
 
         try {
             $checkResult = $objData->CheckSign($this->payConfig);
-            if($checkResult == false){
+            if ($checkResult == false) {
                 return $this->error('签名校验失败', $responseData);
             }
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return $this->error('签名校验失败', $responseData);
         }
         //查询订单，判断订单真实性
-        if($query){
+        if ($query) {
             $result = $this->Queryorder($data["transaction_id"]);
-            if(!$result['success']){
-                $this->error('订单查询失败', $responseData);
+            if (!$result['success']) {
+                return $this->error('订单查询失败', $responseData);
             }
         }
         return $this->success('订单异步校验通过', $responseData);
@@ -174,12 +183,13 @@ class WxPay extends BaseObject {
 
     /**
      * 回复通知
-     *
      * @param $success
      * @param $msg
      * @param bool $die
+     * @throws \WxPayException
      */
-    public function notifyReply($success, $msg, $die=true){
+    public function notifyReply($success, $msg, $die = true)
+    {
         $wxPayReply = new \WxPayNotify();
         $wxPayReply->SetReturn_code($success ? 'SUCCESS' : 'FAIL');
         $wxPayReply->SetReturn_msg($success ? 'OK' : $msg);
