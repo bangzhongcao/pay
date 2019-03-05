@@ -21,6 +21,8 @@ $ composer require jormin/pay -vvv
 
 - [微信](doc/wechatpay.md)
 
+- [爱贝](doc/iapppay.md)
+
 ## 参考文档
 
 1. [蚂蚁金服开放平台文档中心](https://docs.open.alipay.com/200/)
