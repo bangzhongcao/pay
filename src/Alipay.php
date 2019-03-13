@@ -12,110 +12,94 @@ class Alipay extends BaseObject
 {
 
     /**
-     * 支付宝应用ID
-     * @var
+     * @var string 支付宝应用ID
      */
     protected $appId;
 
     /**
-     * 沙箱模式
-     * @var bool
+     * @var bool 沙箱模式
      */
     protected $sandbox = false;
 
     /**
-     * 支付宝网关
-     * @var
+     * @var string 支付宝网关
      */
     protected $gatewayUrl = 'https://openapi.alipay.com/gateway.do';
 
     /**
-     * 支付宝沙箱网关
-     * @var
+     * @var string 支付宝沙箱网关
      */
     protected $sandboxGatewayUrl = 'https://openapi.alipaydev.com/gateway.do';
 
     /**
-     * 授权Url
-     * @var
+     * @var string 授权Url
      */
     protected $authUrl = 'https://openauth.alipay.com/oauth2/publicAppAuthorize.htm';
 
     /**
-     * 授权沙箱Url
-     * @var
+     * @var string 授权沙箱Url
      */
     protected $sandboxAuthUrl = 'https://openauth.alipaydev.com/oauth2/publicAppAuthorize.htm';
 
     /**
-     * 支付宝公钥
-     * @var
+     * @var string 支付宝公钥
      */
     public $alipayPublicKey;
 
     /**
-     * 商户私钥
-     * @var
+     * @var string 商户私钥
      */
     public $merchantPrivateKey;
 
     /**
-     * 编码格式
-     * @var string
+     * @var string 编码格式
      */
     public $charset;
 
     /**
-     * Token
-     * @var null
+     * @var string Token
      */
     public $token = NULL;
 
     /**
-     * 返回数据格式
-     * @var string
+     * @var string 返回数据格式
      */
     public $format = "json";
 
     /**
-     * 签名方式
-     * @var string
+     * @var string 签名方式
      */
     public $signType;
 
     /**
-     * 支付结果异步通知地址
-     * @var string
+     * @var string 支付结果异步通知地址
      */
     public $notifyUrl;
 
     /**
-     * 前台页面跳转地址
-     * @var string
+     * @var string 前台页面跳转地址
      */
     public $returnUrl;
 
     /**
-     * Aop CLient
-     * @var
+     * @var \AopClient Aop CLient
      */
     public $aopClient;
 
     /**
-     * 业务参数
-     * @var
+     * @var string 业务参数
      */
     protected $payBizContent;
 
     /**
      * Alipay constructor.
-     * @param $appId
-     * @param $alipayPublicKey
-     * @param $merchantPrivateKey
-     * @param $notifyUrl
-     * @param null $returnUrl
-     * @param string $charset
-     * @param string $signType
+     * @param string $appId AppId
+     * @param string $alipayPublicKey 支付宝公钥
+     * @param string $merchantPrivateKey 商户私钥
+     * @param string $notifyUrl 支付结果异步通知地址
+     * @param string $returnUrl 前台页面跳转地址
+     * @param string $charset 编码
+     * @param string $signType 签名方式
      * @param bool $sandbox
      */
     function __construct($appId, $alipayPublicKey, $merchantPrivateKey, $notifyUrl, $returnUrl = null, $charset = 'UTF-8', $signType = 'RSA2', $sandbox = false)
@@ -136,7 +120,7 @@ class Alipay extends BaseObject
         $aopClient->signType = $this->signType;
         $aopClient->alipayrsaPublicKey = $this->alipayPublicKey;
         $aopClient->rsaPrivateKey = $this->merchantPrivateKey;
-        $this->aopClient = $aopClient;
+        $this-> aopClient = $aopClient;
     }
 
     /**
@@ -158,10 +142,10 @@ class Alipay extends BaseObject
     }
 
     /**
-     * 用户授权链接
-     * @param $scope
-     * @param $redirectUrl
-     * @param null $state
+     * 获取用户授权链接
+     * @param string $scope 接口权限值，目前只支持auth_user和auth_base两个值
+     * @param string $redirectUrl 回调页面，是经过转义的url链接
+     * @param string $state 商户自定义参数，用户授权后，重定向到redirect_uri时会原样回传给商户
      * @return array
      */
     public function userAuthUrl($scope, $redirectUrl, $state = null)
@@ -178,8 +162,8 @@ class Alipay extends BaseObject
     }
 
     /**
-     * 用户授权链接
-     * @param $authCode
+     * 获取用户ID信息
+     * @param string $authCode 授权码
      * @return array
      * @throws \Exception
      */
@@ -374,8 +358,8 @@ class Alipay extends BaseObject
 
     /**
      * 回复通知
-     * @param $success
-     * @param bool $die
+     * @param bool $success 是否成功
+     * @param bool $die 是否结束脚本运行
      */
     public function notifyReply($success, $die = true)
     {

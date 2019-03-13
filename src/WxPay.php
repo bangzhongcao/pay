@@ -19,38 +19,36 @@ class WxPay extends BaseObject
 {
 
     /**
-     * 微信支付配置
-     * @var PayConfig
+     * @var PayConfig 微信支付配置
      */
     protected $payConfig;
 
     /**
-     * 微信统一下单输入
-     * @var \WxPayUnifiedOrder
+     * @var \WxPayUnifiedOrder 微信统一下单输入
      */
     protected $unifiedOrderInpiut;
 
     /**
      * WxPay constructor.
-     * @param $appId
-     * @param $appSecret
-     * @param $merchantID
-     * @param $key
-     * @param $notifyUrl
-     * @param null $returnUrl
-     * @param string $signType
+     * @param string $appId AppId
+     * @param string $appSecret AppSecret
+     * @param string $merchantID 商户ID
+     * @param string $key 支付密钥
+     * @param string $notifyUrl 异步通知地址
+     * @param string $returnUrl 前端跳转地址
+     * @param string $signType 签名方式
      */
     public function __construct($appId, $appSecret, $merchantID, $key, $notifyUrl, $returnUrl = null, $signType = 'MD5')
     {
-        $this->payConfig = new PayConfig($appId, $appSecret, $merchantID, $key, $notifyUrl, $returnUrl = null, $signType);
+        $this->payConfig = new PayConfig($appId, $appSecret, $merchantID, $key, $notifyUrl, $returnUrl, $signType);
     }
 
     /**
      * 生成业务参数
-     * @param $order
-     * @param $body
-     * @param $amount
-     * @param array $otherParams
+     * @param string $order 订单好
+     * @param string $body 订单说明
+     * @param int $amount 支付金额，单位：分
+     * @param array $otherParams 其他参数
      */
     public function setUnifiedOrderContent($order, $body, $amount, $otherParams = [])
     {
@@ -125,7 +123,7 @@ class WxPay extends BaseObject
 
     /**
      * 查询订单
-     * @param $transaction_id
+     * @param string $transaction_id 微信订单号
      * @return array
      * @throws \WxPayException
      */
@@ -183,9 +181,9 @@ class WxPay extends BaseObject
 
     /**
      * 回复通知
-     * @param $success
-     * @param $msg
-     * @param bool $die
+     * @param bool $success 是否成功
+     * @param string $msg 回复消息
+     * @param bool $die 是否结束脚本运行
      * @throws \WxPayException
      */
     public function notifyReply($success, $msg, $die = true)
