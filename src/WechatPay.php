@@ -6,16 +6,16 @@ include_once dirname(__FILE__) . '/../sdk/wechat_php_sdk_v3.0.9/lib/WxPay.Config
 include_once dirname(__FILE__) . '/../sdk/wechat_php_sdk_v3.0.9/lib/WxPay.Api.php';
 include_once dirname(__FILE__) . '/../sdk/wechat_php_sdk_v3.0.9/lib/WxPay.Notify.php';
 
-use Jormin\Pay\WxPay\AppPay;
-use Jormin\Pay\WxPay\BasePay;
-use Jormin\Pay\WxPay\JsApiPay;
-use Jormin\Pay\WxPay\PayConfig;
+use Jormin\Pay\WechatPay\AppPay;
+use Jormin\Pay\WechatPay\BasePay;
+use Jormin\Pay\WechatPay\JsApiPay;
+use Jormin\Pay\WechatPay\PayConfig;
 
 /**
  * Class WxPay
  * @package Jormin\Pay
  */
-class WxPay extends BaseObject
+class WechatPay extends BaseObject
 {
 
     /**

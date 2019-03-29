@@ -1,6 +1,6 @@
 <?php
 
-namespace Jormin\Pay\WxPay;
+namespace Jormin\Pay\WechatPay;
 
 include_once dirname(__FILE__) . '/../../sdk/wechat_php_sdk_v3.0.9/lib/WxPay.Config.Interface.php';
 include_once dirname(__FILE__) . '/../../sdk/wechat_php_sdk_v3.0.9/lib/WxPay.Api.php';

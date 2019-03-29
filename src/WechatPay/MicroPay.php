@@ -1,6 +1,6 @@
 <?php
 
-namespace Jormin\Pay\WxPay;
+namespace Jormin\Pay\WechatPay;
 
 /**
  * Class MicroPay
