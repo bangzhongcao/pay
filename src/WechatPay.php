@@ -8,6 +8,7 @@ include_once dirname(__FILE__) . '/../sdk/wechat_php_sdk_v3.0.9/lib/WxPay.Notify
 
 use Jormin\Pay\WechatPay\AppPay;
 use Jormin\Pay\WechatPay\BasePay;
+use Jormin\Pay\WechatPay\H5Pay;
 use Jormin\Pay\WechatPay\JsApiPay;
 use Jormin\Pay\WechatPay\PayConfig;
 
@@ -76,7 +77,7 @@ class WechatPay extends BaseObject
                 break;
             case 'h5':
                 $this->unifiedOrderInpiut->SetTrade_type("MWEB");
-                $wxPay = new H5($this->payConfig);
+                $wxPay = new H5Pay($this->payConfig);
                 break;
         }
         try {
@@ -89,7 +90,7 @@ class WechatPay extends BaseObject
                     $response = $wxPay->GetAppParameters($unifiedOrder);
                     break;
                 case 'h5':
-                    $response = $wxPay->GetAppParameters($unifiedOrder);
+                    $response = $wxPay->GetH5Parameters($unifiedOrder);
                     break;
                 default:
                     $response = [$unifiedOrder];
