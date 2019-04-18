@@ -2,7 +2,7 @@
 
 namespace Jormin\Pay;
 
-include_once dirname(__FILE__) . '/../sdk/alipay-sdk-PHP-3.3.0/AopSdk.php';
+include_once dirname(__FILE__) . '/../sdk/alipay-sdk-PHP-3.3.2/AopSdk.php';
 
 /**
  * Class Alipay

@@ -74,6 +74,10 @@ class WechatPay extends BaseObject
                 $this->unifiedOrderInpiut->SetTrade_type("APP");
                 $wxPay = new AppPay($this->payConfig);
                 break;
+            case 'h5':
+                $this->unifiedOrderInpiut->SetTrade_type("MWEB");
+                $wxPay = new H5($this->payConfig);
+                break;
         }
         try {
             $unifiedOrder = \WxPayApi::unifiedOrder($this->payConfig, $this->unifiedOrderInpiut);
@@ -82,6 +86,9 @@ class WechatPay extends BaseObject
                     $response = $wxPay->GetJsApiParameters($unifiedOrder);
                     break;
                 case 'app':
+                    $response = $wxPay->GetAppParameters($unifiedOrder);
+                    break;
+                case 'h5':
                     $response = $wxPay->GetAppParameters($unifiedOrder);
                     break;
                 default:
