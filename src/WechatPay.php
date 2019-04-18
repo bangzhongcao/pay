@@ -130,6 +130,15 @@ class WechatPay extends BaseObject
     }
 
     /**
+     * H5 支付
+     * @return array
+     */
+    public function H5Pay()
+    {
+        return $this->pay('h5');
+    }
+
+    /**
      * 查询订单
      * @param string $transaction_id 微信订单号
      * @return array
