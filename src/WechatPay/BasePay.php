@@ -44,6 +44,8 @@ class BasePay extends BaseObject {
         isset($otherParams['startTime']) && $unifiedOrderInpiut->SetTime_start($otherParams['startTime']);
         isset($otherParams['startExpire']) && $unifiedOrderInpiut->SetTime_expire($otherParams['startExpire']);
         isset($otherParams['goodsTag']) && $unifiedOrderInpiut->SetGoods_tag($otherParams['goodsTag']);
+        isset($otherParams['spbillCreateIP']) && $unifiedOrderInpiut->SetSpbill_create_ip($otherParams['spbillCreateIP']);
+        isset($otherParams['openId']) && $unifiedOrderInpiut->SetOpenid($otherParams['openId']);
         return $unifiedOrderInpiut;
     }
 }

@@ -67,9 +67,11 @@ class WechatPay extends BaseObject
         switch ($payWay) {
             case 'js':
                 $wxPay = new JsApiPay($this->payConfig);
-                $openId = $wxPay->GetOpenid();
+                if(!$this->unifiedOrderInpiut->IsOpenidSet()){
+                    $openId = $wxPay->GetOpenid();
+                    $this->unifiedOrderInpiut->SetOpenid($openId);
+                }
                 $this->unifiedOrderInpiut->SetTrade_type("JSAPI");
-                $this->unifiedOrderInpiut->SetOpenid($openId);
                 break;
             case 'app':
                 $this->unifiedOrderInpiut->SetTrade_type("APP");
@@ -77,11 +79,13 @@ class WechatPay extends BaseObject
                 break;
             case 'h5':
                 $this->unifiedOrderInpiut->SetTrade_type("MWEB");
-                $wxPay = new H5Pay($this->payConfig);
                 break;
         }
         try {
             $unifiedOrder = \WxPayApi::unifiedOrder($this->payConfig, $this->unifiedOrderInpiut);
+            if ($unifiedOrder['return_code'] === 'FAIL') {
+                return $this->error('统一下单失败，失败原因：' . $unifiedOrder['return_msg']);
+            }
             switch ($payWay) {
                 case 'js':
                     $response = $wxPay->GetJsApiParameters($unifiedOrder);
@@ -90,13 +94,13 @@ class WechatPay extends BaseObject
                     $response = $wxPay->GetAppParameters($unifiedOrder);
                     break;
                 case 'h5':
-                    $response = $wxPay->GetH5Parameters($unifiedOrder);
+                    return $this->success('统一下单成功', $unifiedOrder);
                     break;
                 default:
                     $response = [$unifiedOrder];
                     break;
             }
-            return $this->success('请求成功', $response);
+            return $this->success('统一下单成功', $response);
         } catch (\Exception $e) {
             return $this->error('统一下单失败，失败原因：' . $e->getMessage());
         }
@@ -133,7 +137,7 @@ class WechatPay extends BaseObject
      * H5 支付
      * @return array
      */
-    public function H5Pay()
+    public function h5Pay()
     {
         return $this->pay('h5');
     }
