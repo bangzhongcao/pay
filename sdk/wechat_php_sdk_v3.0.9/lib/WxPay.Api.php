@@ -51,7 +51,9 @@ class WxPayApi
 		
 		$inputObj->SetAppid($config->GetAppId());//公众账号ID
 		$inputObj->SetMch_id($config->GetMerchantId());//商户号
-		$inputObj->SetSpbill_create_ip(self::getClientIP());//终端ip
+        if(!$inputObj->IsSpbill_create_ipSet()){
+            $inputObj->SetSpbill_create_ip(self::getClientIP());//终端ip
+        }
 		$inputObj->SetNonce_str(self::getNonceStr());//随机字符串
 		
 		//签名
