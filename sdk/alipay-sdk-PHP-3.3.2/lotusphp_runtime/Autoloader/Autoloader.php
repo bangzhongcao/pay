@@ -230,12 +230,11 @@ class LtAutoloader
         if (!in_array(pathinfo($file, PATHINFO_EXTENSION), $this->conf["allow_file_extension"])) {
             return false;
         }
-        $libNames = array();
+        $libNames = $this->parseLibNames(trim(file_get_contents($file)));
         if ($this->fileStore instanceof LtStore) {
             if (file_exists($this->fileStore->getFilePath($file))) {
                 $cachedFileLastModified = (int)@filemtime($this->fileStore->getFilePath($file));
                 if ($cachedFileLastModified < filemtime($file) || !is_array(($libNames = $this->fileStore->get($file)))) {
-                    $libNames = $this->parseLibNames(trim(file_get_contents($file)));
                     if (0 < $cachedFileLastModified) {
                         $this->fileStore->update($file, $libNames);
                     } else {
@@ -245,8 +244,6 @@ class LtAutoloader
             }else{
                 $this->fileStore->add($file, $libNames);
             }
-        } else {
-            $libNames = $this->parseLibNames(trim(file_get_contents($file)));
         }
 
         foreach ($libNames as $libType => $libArray) {
