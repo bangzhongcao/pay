@@ -352,7 +352,7 @@ class Alipay extends BaseObject
      */
     public function notifyVerify()
     {
-        $result = $this->aopClient->rsaCheckV1($_POST, $this->alipayPublicKey, $this->signType);
+        $result = $this->aopClient->rsaCheckV2($_POST, $this->alipayPublicKey, $this->signType);
         return $result;
     }
 
