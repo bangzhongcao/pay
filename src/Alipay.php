@@ -197,7 +197,7 @@ class Alipay extends BaseObject
             'body' => $body,
             'subject' => $subject,
             'out_trade_no' => $order,
-            'total_amount' => number_format($amount / 100, 2),
+            'total_amount' => number_format($amount / 100, 2, '.', ''),
             'product_code' => 'QUICK_MSECURITY_PAY',
             'buyer_id' => $buyerID,
         ];
