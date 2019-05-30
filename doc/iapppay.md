@@ -26,7 +26,7 @@
     
     $extraData = [
         'url_h' => 'http://www.baidu.com', // 用户放弃支付后网页端跳转地址，最大长度512
-        'url_r' => 'http://www.baidu.com', // 用户支付完成后的网页端跳转地址。带有支付结果通知数据，最大长度512
+        'url_r' => 'http://www.baidu.com', // 用户支付完成后的网页端跳转地址，带有支付结果通知数据，最大长度512
         'h5' => false // 是否H5支付
     ];
  
