@@ -319,9 +319,21 @@ class YQBPay extends BaseObject
      * @param bool $success 是否成功
      * @param bool $die 是否结束脚本运行
      */
-    public function notifyReply($success, $die = true)
+    public function wechatCashierNotifyReply($success, $die = true)
     {
-        echo $success ? 'success' : 'fail';
+        $wechatCashier = new WechatCashier($this->merchantKey, $this->sandbox);
+        $params = [
+            'version' => $this->version,
+            'charset' => $this->charset,
+            'signMethod' => $this->signMethod,
+            'successLable' => $success ? 'S' : 'N',
+        ];
+        $params['signature'] = $wechatCashier->signature($params);
+        $responseData = [];
+        foreach ($params as $key => $value) {
+            $responseData[] = $key . '=' . $value;
+        }
+        echo implode('&', $responseData);
         $die && die;
     }
 
