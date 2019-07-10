@@ -305,13 +305,16 @@ class YQBPay extends BaseObject
     /**
      * 回调校验签名
      * @param array $params
-     * @return bool
+     * @return array
      */
     public function wechatCashierNotifyVerify(array $params)
     {
         $wechatCashier = new WechatCashier($this->merchantKey, $this->sandbox);
         $result = $wechatCashier->verify($params['signature'], $params);
-        return $result;
+        if (!$result) {
+            return $this->error('签名校验不通过');
+        }
+        return $this->success('签名校验通过');
     }
 
     /**

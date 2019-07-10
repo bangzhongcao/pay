@@ -187,5 +187,16 @@ class Iapppay extends BaseObject
         return $this->success('签名校验通过');
     }
 
+    /**
+     * 回复通知
+     * @param bool $success 是否成功
+     * @param bool $die 是否结束脚本运行
+     */
+    public function notifyReply($success, $die = true)
+    {
+        echo $success ? 'SUCCESS' : 'FAIL';
+        $die && die;
+    }
+
 
 }
