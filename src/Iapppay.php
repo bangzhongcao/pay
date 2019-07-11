@@ -44,6 +44,12 @@ class Iapppay extends BaseObject
     public $notifyUrl;
 
     /**
+     * 支付跳转地址
+     * @var string
+     */
+    public $returnUrl;
+
+    /**
      * 下单Url
      * @var string
      */
@@ -79,8 +85,8 @@ class Iapppay extends BaseObject
     public function __construct($appId, $iapppayPublicKey, $merchantPrivateKey, $notifyUrl = null, $returnUrl = null, $signType = 'RSA')
     {
         $this->appId = $appId;
-        $this->iapppayPublicKey = $iapppayPublicKey;
-        $this->merchantPrivateKey = $merchantPrivateKey;
+        $this->iapppayPublicKey = $this->formatPubKey($iapppayPublicKey);
+        $this->merchantPrivateKey = $this->formatPriKey($merchantPrivateKey);
         $this->notifyUrl = $notifyUrl;
         $this->returnUrl = $returnUrl;
         $this->signType = $signType;

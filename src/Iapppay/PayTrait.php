@@ -113,7 +113,6 @@ trait PayTrait
         //验证签名，失败应答报文没有sign，跳过验签
         if (array_key_exists("sign", $responseArr)) {
             //校验签名
-            $pkey = $this->formatPubKey($pkey);
             $result = $this->verify($responseArr["transdata"], $responseArr["sign"], $pkey);
             if (!$result) {
                 return $this->error('爱贝响应签名校验不通过');
@@ -168,10 +167,8 @@ trait PayTrait
     {
         //获取待签名字符串
         $content = json_encode($params);
-        //格式化key，建议将格式化后的key保存，直接调用
-        $vkey = $this->formatPriKey($privateKey);
         //生成签名
-        $sign = $this->sign($content, $vkey);
+        $sign = $this->sign($content, $privateKey);
         //组装请求报文，目前签名方式只支持RSA这一种
         $requestData = ($isH5 ? 'data' : 'transdata') . "=" . urlencode($content) . "&sign=" . urlencode($sign) . "&signtype=RSA";
         return $requestData;
