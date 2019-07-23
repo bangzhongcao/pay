@@ -5,6 +5,7 @@ namespace Jormin\Pay;
 include_once dirname(__FILE__) . '/../sdk/wechat_php_sdk_v3.0.9/lib/WxPay.Config.Interface.php';
 include_once dirname(__FILE__) . '/../sdk/wechat_php_sdk_v3.0.9/lib/WxPay.Api.php';
 include_once dirname(__FILE__) . '/../sdk/wechat_php_sdk_v3.0.9/lib/WxPay.Notify.php';
+include_once dirname(__FILE__) . '/../sdk/wechat_php_sdk_v3.0.9/lib/WxPay.Data.php';
 
 use Jormin\Pay\WechatPay\AppPay;
 use Jormin\Pay\WechatPay\BasePay;
@@ -67,7 +68,7 @@ class WechatPay extends BaseObject
         switch ($payWay) {
             case 'js':
                 $wxPay = new JsApiPay($this->payConfig);
-                if(!$this->unifiedOrderInpiut->IsOpenidSet()){
+                if (!$this->unifiedOrderInpiut->IsOpenidSet()) {
                     $openId = $wxPay->GetOpenid();
                     $this->unifiedOrderInpiut->SetOpenid($openId);
                 }
@@ -215,5 +216,24 @@ class WechatPay extends BaseObject
         $xml = $wxPayReply->ToXml();
         echo $xml;
         $die && die;
+    }
+
+    /**
+     * 获取账单数据
+     * @param $billDate
+     * @param $billType
+     * @return array
+     */
+    public function getBills($billDate, $billType)
+    {
+        $input = new \WxPayDownloadBill();
+        $input->SetBill_date($billDate);
+        $input->SetBill_type($billType);
+        try {
+            $data = \WxPayApi::downloadBill($this->payConfig, $input, 500);
+            return $this->success('获取账单成功', $data);
+        } catch (\WxPayException $exception) {
+            return $this->error('下载账单出错：' . $exception->getMessage());
+        }
     }
 }

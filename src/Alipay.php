@@ -120,7 +120,7 @@ class Alipay extends BaseObject
         $aopClient->signType = $this->signType;
         $aopClient->alipayrsaPublicKey = $this->alipayPublicKey;
         $aopClient->rsaPrivateKey = $this->merchantPrivateKey;
-        $this-> aopClient = $aopClient;
+        $this->aopClient = $aopClient;
     }
 
     /**
@@ -365,5 +365,33 @@ class Alipay extends BaseObject
     {
         echo $success ? 'success' : 'fail';
         $die && die;
+    }
+
+    /**
+     * 获取账单数据下载地址
+     * @param $billDate
+     * @param $billType
+     * @return array
+     */
+    public function getBillUrl($billDate, $billType)
+    {
+        $request = new \AlipayDataDataserviceBillDownloadurlQueryRequest();
+        $bizContent = [
+            'bill_date' => $billDate,
+            'bill_type' => $billType
+        ];
+        $bizContent = json_encode($bizContent, JSON_UNESCAPED_UNICODE);
+        $request->setBizContent($bizContent);
+        try {
+            $response = $this->aopClient->execute($request);
+            if (property_exists($response, 'error_response')) {
+                $response = (array)$response->error_response;
+                return $this->error(isset($response['sub_msg']) ? $response['sub_msg'] : $response['msg'], $response);
+            }
+            $response = (array)$response->alipay_data_dataservice_bill_downloadurl_query_response;
+            return $this->success('获取账单成功', $response);
+        } catch (\Exception $exception) {
+            return $this->error('下载账单出错：' . $exception->getMessage());
+        }
     }
 }
