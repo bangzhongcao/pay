@@ -23,7 +23,7 @@
     ```
     /**
      * 生成业务参数
-     * @param string $order 订单好
+     * @param string $order 订单号
      * @param string $body 订单说明
      * @param int $amount 支付金额，单位：分
      * @param array $otherParams 其他参数
@@ -87,4 +87,16 @@
      * @throws \WxPayException
      */
     $wechatpay->notifyReply($success, $msg, $die = true)
+    ```
+    
+ 7. 获取账单数据
+ 
+     ```
+    /**
+     * 获取账单数据
+     * @param string $billDate 账单日期
+     * @param string $billType 账单类型，ALL（默认值），返回当日所有订单信息（不含充值退款订单）；SUCCESS，返回当日成功支付的订单（不含充值退款订单）；REFUND，返回当日退款订单（不含充值退款订单）；RECHARGE_REFUND，返回当日充值退款订单
+     * @return array
+     */
+    $wechatpay->getBills($billDate, $billType)
     ```
