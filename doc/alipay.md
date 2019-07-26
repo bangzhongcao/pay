@@ -116,8 +116,8 @@
     $alipay->notifyReply($success, $die = true)
     ```
     
- 10. 获取账单下载地址
- 
+10. 获取账单下载地址
+
     ```
     /**
      * 获取账单数据下载地址
