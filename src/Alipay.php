@@ -369,8 +369,8 @@ class Alipay extends BaseObject
 
     /**
      * 获取账单数据下载地址
-     * @param $billDate
-     * @param $billType
+     * @param string $billDate 账单日期
+     * @param string $billType 账单类型，trade、signcustomer；trade指商户基于支付宝交易收单的业务账单；signcustomer是指基于商户支付宝余额收入及支出等资金变动的帐务账单。
      * @return array
      */
     public function getBillUrl($billDate, $billType)
