@@ -23,6 +23,8 @@ $ composer require jormin/pay -vvv
 
 - [爱贝支付](doc/iapppay.md)
 
+- [平安支付(壹钱包)](doc/pingan_yqb.md)
+
 ## 参考文档
 
 1. [蚂蚁金服开放平台文档中心](https://docs.open.alipay.com/200/)
@@ -30,6 +32,8 @@ $ composer require jormin/pay -vvv
 2. [微信支付文档中心](https://pay.weixin.qq.com/wiki/doc/api/index.html)
 
 3. [爱贝支付文档中心](https://www.iapppay.com/portal/gintroduction)
+
+4. [平安支付(壹钱包)文档中心](http://test-open.stg.yqb.com/moap/business/tecDoc;jsessionid=3B77DCFD6A8A68212BAB4D223B7FC920)
 
 ## License
 
