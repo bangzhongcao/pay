@@ -384,11 +384,10 @@ class Alipay extends BaseObject
         $request->setBizContent($bizContent);
         try {
             $response = $this->aopClient->execute($request);
-            if (property_exists($response, 'error_response')) {
-                $response = (array)$response->error_response;
+            $response = (array)$response->alipay_data_dataservice_bill_downloadurl_query_response;
+            if ($response['code'] != '10000') {
                 return $this->error(isset($response['sub_msg']) ? $response['sub_msg'] : $response['msg'], $response);
             }
-            $response = (array)$response->alipay_data_dataservice_bill_downloadurl_query_response;
             return $this->success('获取账单成功', $response);
         } catch (\Exception $exception) {
             return $this->error('下载账单出错：' . $exception->getMessage());
