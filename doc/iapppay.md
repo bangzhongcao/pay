@@ -32,14 +32,29 @@
  
     $iapppay->jsPay($commonData, $extraData);
     ```
+3. 下单
 
-3. 订单查询
+    ```php
+    $commonData = [
+        'cporderid' => '2019097868686823', // 商户唯一订单号
+        'price' => 0.01, // 支付金额
+        'appuserid' => '1', // 商户平台用户ID
+        'waresid' => 1, // 商品ID
+        'waresname' => '测试', // 商品名称
+        'cpprivateinfo' => '测试', // 商户预传信息，爱贝原样返回
+        'notifyurl' => 'http://www.baidu.com' // 商户异步通知地址
+    ];
+ 
+    $iapppay->makeOrder($commonData);
+    ```
+
+4. 订单查询
 
     ```php
     $iapppay->queryOrder('20190305089799986');
     ```
 
-4. 异步通知校验签名
+5. 异步通知校验签名
 
     ```php
     $transdata = ''; // 异步通知带过来的参数

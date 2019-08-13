@@ -144,8 +144,14 @@ class Iapppay extends BaseObject
                 $gateway = $paywayData['h5'] ? $this->h5Url : $this->pcUrl;
                 return $this->success('下单成功', $gateway . '?' . $requestData);
                 break;
+            default:
+                $orderData = [
+                    'transid' => $transid,
+                    'appid' => $this->appId,
+                ];
+                return $this->success('下单成功', $orderData);
+                break;
         }
-        return $response;
     }
 
     /**
@@ -160,13 +166,23 @@ class Iapppay extends BaseObject
     }
 
     /**
+     * 下单
+     * @param $commonData
+     * @return array
+     */
+    public function makeOrder($commonData)
+    {
+        return $this->order('', $commonData, []);
+    }
+
+    /**
      * 查询订单
      * @param $cporderid
      * @return array
      */
     public function queryOrder($cporderid)
     {
-        if(!$cporderid){
+        if (!$cporderid) {
             return $this->error('订单不能为空');
         }
         $params = [
