@@ -273,4 +273,35 @@ class WechatPay extends BaseObject
             return $this->error('退款失败,' . $exception->getMessage());
         }
     }
+
+    /**
+     * 退款查询
+     * @param $outRefundNo
+     * @param null $refundId
+     * @param null $transactionId
+     * @param null $outTradeNo
+     * @return array
+     */
+    public function refundQuery($outRefundNo, $refundId = null, $transactionId = null, $outTradeNo = null)
+    {
+        try {
+            $input = new \WxPayRefundQuery();
+            if ($refundId) {
+                $input->SetRefund_id($refundId);
+            }
+            if ($outRefundNo) {
+                $input->SetOut_refund_no($outRefundNo);
+            }
+            if ($transactionId) {
+                $input->SetTransaction_id($transactionId);
+            }
+            if ($outTradeNo) {
+                $input->SetOut_trade_no($outTradeNo);
+            }
+            $refundData = \WxPayApi::refundQuery($this->payConfig, $input);
+            return $this->success('退款查询成功', $refundData);
+        } catch (\Exception $exception) {
+            return $this->error('退款查询失败,' . $exception->getMessage());
+        }
+    }
 }

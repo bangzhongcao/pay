@@ -429,4 +429,36 @@ class Alipay extends BaseObject
             return $this->error('退款出错：' . $exception->getMessage());
         }
     }
+
+    /**
+     * 退款查询
+     * @param $tradeNo
+     * @param $outTradeNo
+     * @param $outRequestNo
+     * @return array
+     */
+    public function refundQuery($tradeNo, $outTradeNo, $outRequestNo)
+    {
+        $request = new \AlipayTradeFastpayRefundQueryRequest();
+        $bizContent = [
+            'out_request_no' => $outRequestNo,
+        ];
+        if($tradeNo){
+            $bizContent['trade_no'] = $tradeNo;
+        }else{
+            $bizContent['out_trade_no'] = $outTradeNo;
+        }
+        $bizContent = json_encode($bizContent, JSON_UNESCAPED_UNICODE);
+        $request->setBizContent($bizContent);
+        try {
+            $response = $this->aopClient->execute($request);
+            $response = (array)$response->alipay_trade_fastpay_refund_query_response;
+            if ($response['code'] != '10000') {
+                return $this->error(isset($response['sub_msg']) ? $response['sub_msg'] : $response['msg'], $response);
+            }
+            return $this->success('退款查询成功', $response);
+        } catch (\Exception $exception) {
+            return $this->error('退款查询出错：' . $exception->getMessage());
+        }
+    }
 }
