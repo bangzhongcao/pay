@@ -39,10 +39,12 @@ class WechatPay extends BaseObject
      * @param string $notifyUrl 异步通知地址
      * @param string $returnUrl 前端跳转地址
      * @param string $signType 签名方式
+     * @param string $sslCertPath 证书
+     * @param string $sslKeyPath 证书
      */
-    public function __construct($appId, $appSecret, $merchantID, $key, $notifyUrl, $returnUrl = null, $signType = 'MD5')
+    public function __construct($appId, $appSecret, $merchantID, $key, $notifyUrl, $returnUrl = null, $signType = 'MD5', $sslCertPath = '', $sslKeyPath = '')
     {
-        $this->payConfig = new PayConfig($appId, $appSecret, $merchantID, $key, $notifyUrl, $returnUrl, $signType);
+        $this->payConfig = new PayConfig($appId, $appSecret, $merchantID, $key, $notifyUrl, $returnUrl, $signType, $sslCertPath, $sslKeyPath);
     }
 
     /**
@@ -237,6 +239,38 @@ class WechatPay extends BaseObject
             return $this->success('获取账单成功', $data);
         } catch (\WxPayException $exception) {
             return $this->error('下载账单出错：' . $exception->getMessage());
+        }
+    }
+
+    /**
+     * 退款
+     * @param $transactionId
+     * @param $outTradeNo
+     * @param $outRefundNo
+     * @param $totalFee
+     * @param $refundFee
+     * @param string $refundDesc
+     * @param string $notifyUrl
+     * @return array
+     */
+    public function refund($transactionId, $outTradeNo, $outRefundNo, $totalFee, $refundFee, $refundDesc = '', $notifyUrl = '')
+    {
+        try {
+            $input = new \WxPayRefund();
+            if ($transactionId) {
+                $input->SetTransaction_id($transactionId);
+            } else {
+                $input->SetOut_trade_no($outTradeNo);
+            }
+            $input->SetTotal_fee($totalFee);
+            $input->SetRefund_fee($refundFee);
+            $input->SetOut_refund_no($outRefundNo);
+            $input->SetRefund_desc($refundDesc);
+            $input->SetNotify_url($notifyUrl);
+            $refundData = \WxPayApi::refund($this->payConfig, $input);
+            return $this->success('退款请求提交成功', $refundData);
+        } catch (\Exception $exception) {
+            return $this->error('退款失败,' . $exception->getMessage());
         }
     }
 }
