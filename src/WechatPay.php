@@ -87,10 +87,10 @@ class WechatPay extends BaseObject
         try {
             $unifiedOrder = \WxPayApi::unifiedOrder($this->payConfig, $this->unifiedOrderInpiut);
             if ($unifiedOrder['return_code'] === 'FAIL') {
-                return $this->error('统一下单失败，失败原因：' . $unifiedOrder['return_msg']);
+                return $this->error('统一下单失败，失败原因：' . $unifiedOrder['return_msg'], $unifiedOrder);
             }
             if ($unifiedOrder['result_code'] === 'FAIL') {
-                return $this->error('统一下单失败，失败原因：' . $unifiedOrder['err_code_des']);
+                return $this->error('统一下单失败，失败原因：' . $unifiedOrder['err_code_des'], $unifiedOrder);
             }
             switch ($payWay) {
                 case 'js':
