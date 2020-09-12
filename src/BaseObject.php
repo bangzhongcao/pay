@@ -5,7 +5,7 @@ namespace Jormin\Pay;
 
 /**
  * Class BaseObject
- * @package Jormin\Qiniu
+ * @package Jormin\Pay
  */
 class BaseObject
 {
